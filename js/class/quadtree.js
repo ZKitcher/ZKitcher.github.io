@@ -41,7 +41,7 @@ class Rectangle {
         if (this.x < this.w / 2) {
             rect(this.x + width, this.y, this.w, this.h);
         }
-        if (range.x > width - range.w / 2) {
+        if (this.x > width - this.w / 2) {
             rect(this.x - width, this.y, this.w, this.h);
         }
         if (this.y < this.h / 2) {
@@ -111,7 +111,7 @@ class QuadTree {
     query(range) {
         let found = this.getItemsInArea(range)
 
-
+        /*
         if (range.x < range.w / 2) {
             //LEFT
             let wrappingBound = new Rectangle(range.x + width, range.y, range.w, range.h)
@@ -155,7 +155,7 @@ class QuadTree {
         }
 
         if(found.length) console.log(found)
-
+        */
         return found;
     }
 
@@ -256,9 +256,4 @@ class QuadTree {
             this.southwest.show();
         }
     }
-
-
-
-
-
 }
