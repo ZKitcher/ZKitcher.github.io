@@ -2,7 +2,7 @@ class Food {
     constructor(x, y) {
         this.position = createVector(x, y);
         this.isEaten = false;
-        this.stockpile = 500;
+        this.stockpile = 250;
     }
 
     run() {
@@ -11,29 +11,28 @@ class Food {
     }
 
     update(ants) {
-        let currentStock = this.stockpile;
-        let currentPos = this.position;
+        for (let i = 0; i < ants.length; i++) {
+            let ant = ants[i];
 
-        ants.forEach(ant => {
             rectMode(CENTER);
             let range = new Rectangle(ant.position.x, ant.position.y, 16, 16);
             let points = foods.query(range);
 
             for (let p of points) {
-                let d = p5.Vector.dist(currentPos, p.item.position);
+                let d = p5.Vector.dist(this.position, p.item.position);
                 if (d < 16) {
                     if (!ant.status.hasFood) {
                         ant.status.hasFood = true;
                         ant.enablePheromones();
-                        currentStock--;
+                        ant.velocity.mult(-1)
+                        this.stockpile--;
                         break;
                     }
                 }
             }
-        })
+        }
 
-        this.stockpile = currentStock;
-        if (this.stockpile < 0) this.isEaten = true;
+        if (this.stockpile < 1) this.isEaten = true;
     }
 
     render() {

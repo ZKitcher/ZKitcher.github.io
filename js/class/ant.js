@@ -7,14 +7,14 @@ class Ant {
         this.maxforce = 0.3;
         this.perceptionRadius = 150;
         this.r = 7;
-        this.maxPheromone = 20;
+        this.maxPheromone = 100;
         this.pheromoneCount = this.maxPheromone;
         this.status = {
             producingPheromones: true,
             hasFood: false
         }
-        this.viewCone = radians(75);
-        
+        this.viewCone = radians(75); 
+
     }
 
     run() {
@@ -42,13 +42,15 @@ class Ant {
 
         if (this.status.hasFood) {
             let followPathHome = this.followPath(paths.toHome).mult(0.5);
-            let foundHome = this.followClosest(antHills, 250).mult(0.8);
+            let foundHome = this.followClosest(antHills, 250).mult(1);
+            let foodCollision = this.collision(foods).mult(5)
 
+            this.applyForce(foodCollision);
             this.applyForce(followPathHome);
             this.applyForce(foundHome);
         } else {
             let followPathFood = this.followPath(paths.toFood).mult(0.4);
-            let foundFood = this.followClosest(foods).mult(0.7);
+            let foundFood = this.followClosest(foods).mult(1);
             this.applyForce(foundFood);
             this.applyForce(followPathFood);
         }
@@ -56,16 +58,11 @@ class Ant {
         let search = this.search().mult(0.4);
         this.applyForce(search);
 
-
-        let foodCollision = this.collision(foods).mult(5)
-        this.applyForce(foodCollision);
-
-        let hillCollision = this.collision(antHills).mult(5)
+        let hillCollision = this.collision(antHills, 10).mult(5)
         this.applyForce(hillCollision);
-
+        
         let antCollision = this.collision(antsTree).mult(0.7)
         this.applyForce(antCollision);
-
     }
 
     disablePheromones() {
@@ -135,7 +132,7 @@ class Ant {
             let d = p5.Vector.dist(this.position, p.item.position);
 
             if (d < 20) {
-                sum.add(p.item.position)
+                sum.add(p.item.position);
                 count++;
             }
 
@@ -223,18 +220,34 @@ class Ant {
         if (this.position.x < -offscreen) {
             //LEFT
             this.position.x = width + offscreen;
+            // let n = createVector(30, 0);
+            // let r = this.velocity.copy();
+            // r.reflect(n);
+            // this.velocity = r
         }
         if (this.position.y < -offscreen) {
             //UP
             this.position.y = height + offscreen;
+            // let n = createVector(0, -30);
+            // let r = this.velocity.copy();
+            // r.reflect(n);
+            // this.velocity = r
         }
         if (this.position.x > width + offscreen) {
             //RIGHT
             this.position.x = -offscreen;
+            // let n = createVector(-30, 0);
+            // let r = this.velocity.copy();
+            // r.reflect(n);
+            // this.velocity = r
         }
         if (this.position.y > height + offscreen) {
             //DOWN
             this.position.y = -offscreen;
+            // let n = createVector(0, 30);
+            // let r = this.velocity.copy();
+            // r.reflect(n);
+            // this.velocity = r
         }
     }
 

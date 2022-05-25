@@ -10,7 +10,6 @@ class AntHill {
     }
 
     update(ants) {
-
         for (let i = 0; i < ants.length; i++) {
             let ant = ants[i];
 
@@ -22,10 +21,12 @@ class AntHill {
                 if (ant.status.hasFood) {
                     ant.status.hasFood = false;
                     this.foodCount++;
+                    ant.velocity.mult(-1)
                 }
                 ant.enablePheromones();
             }
         }
+        if(ants.length < 150) ants.push(new Ant(this.position.x, this.position.y))
     }
 
     render() {

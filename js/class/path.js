@@ -12,7 +12,7 @@ class Path {
     }
 
     render() {
-        push();
+        //push();
         
         if (this.type === 'TOHOME') {
             fill(135, 135, 255, 0.25);
@@ -22,6 +22,6 @@ class Path {
         }
         
         point(this.position.x, this.position.y)
-        pop();
+        //pop();
     }
 }

@@ -29,7 +29,7 @@ function setup() {
         antHills.insert(new Point(new AntHill(antHillLoc.x, antHillLoc.y)))
     }
     for (let i = 0; i < 150; i++) {
-        ants.push(new Ant(antHillLoc.x, antHillLoc.y))
+        // ants.push(new Ant(antHillLoc.x, antHillLoc.y))
     }
     for (let i = 0; i < 5; i++) {
         foods.insert(new Point(new Food(random(100, width - 100), random(100, height - 100))))

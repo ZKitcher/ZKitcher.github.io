@@ -36,8 +36,6 @@ class Rectangle {
         strokeWeight(1);
         rectMode(CENTER);
 
-
-
         if (this.x < this.w / 2) {
             rect(this.x + width, this.y, this.w, this.h);
         }
@@ -50,7 +48,12 @@ class Rectangle {
         if (this.y > this.h / 2) {
             rect(this.x, this.y - height, this.w, this.h);
         }
-
+        if (this.x < this.w / 2 && this.y < this.h / 2) {
+            rect(this.x + width, this.y + height, this.w, this.h);
+        }
+        if (this.x > width - this.w / 2 && this.y > this.h / 2) {
+            rect(this.x - width, this.y - height, this.w, this.h);
+        }
         rect(this.x, this.y, this.w, this.h);
     }
 }
@@ -111,17 +114,29 @@ class QuadTree {
     query(range) {
         let found = this.getItemsInArea(range)
 
-        /*
+ /*
         if (range.x < range.w / 2) {
             //LEFT
             let wrappingBound = new Rectangle(range.x + width, range.y, range.w, range.h)
-            let wrappedPoints = [...this.getItemsInArea(wrappingBound)]
+            let wrappedPoints = this.getItemsInArea(wrappingBound)
             if (wrappedPoints && wrappedPoints.length) {
-                console.log(wrappedPoints)
-                wrappedPoints.forEach(e => e.item.position.x = e.item.position.x - width)
-                found.push(wrappedPoints)
+
+                let temp = wrappedPoints.map((e, index) => {
+                    const newPos = e.item.position.x - 10//width;
+                    return {
+                        ...e,
+                        item: {
+                            ...e.item,
+                            ...e.item.position.x = newPos
+                        }
+                    }
+                });
+
+                //temp.forEach(e => e.item.position.x = e.item.position.x - width)
+                temp.forEach(e => found.push(e))
             }
         }
+       
         if (range.x > width - range.w / 2) {
             //RIGHT
             let wrappingBound = new Rectangle(range.x - width, range.y, range.w, range.h)
@@ -156,6 +171,7 @@ class QuadTree {
 
         if(found.length) console.log(found)
         */
+
         return found;
     }
 
