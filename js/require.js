@@ -7,7 +7,7 @@ const urlTree = [
             'antHill',
             'food',
             'path',
-            'quadTree',
+            'quadtree',
             'wall',
         ]
     },
