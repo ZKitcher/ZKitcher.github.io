@@ -8,19 +8,19 @@ class Path {
     }
     run() {
         if (frameCount > this.lifeSpan) this.isGone = true;
-        //this.render();
+        this.render();
     }
 
     render() {
         //push();
-        
+        /*
         if (this.type === 'TOHOME') {
             fill(135, 135, 255, 0.25);
         }
         if (this.type === 'TOFOOD') {
             fill(135, 255, 135, 0.25);
         }
-        
+        */
         point(this.position.x, this.position.y)
         //pop();
     }
