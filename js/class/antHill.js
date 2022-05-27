@@ -4,12 +4,12 @@ class AntHill {
         this.foodCount = 0;
     }
 
-    run() {
-        this.update(ants)
+    run(ants, antHills) {
+        this.update(ants, antHills)
         this.render();
     }
 
-    update(ants) {
+    update(ants, antHills) {
         for (let i = 0; i < ants.length; i++) {
             let ant = ants[i];
 
@@ -21,9 +21,10 @@ class AntHill {
                 if (ant.status.hasFood) {
                     ant.status.hasFood = false;
                     this.foodCount++;
+                    this.health++;
                     ant.velocity.mult(-1)
                 }
-                ant.enablePheromones();
+                ant.enablePheromones(0);
             }
         }
         if(ants.length < 150) ants.push(new Ant(this.position.x, this.position.y))
@@ -31,7 +32,6 @@ class AntHill {
 
     render() {
         push()
-        text(this.foodCount, 30, 30);
         fill(30, 30, 30);
         stroke(200);
         ellipse(this.position.x, this.position.y, 20, 20);

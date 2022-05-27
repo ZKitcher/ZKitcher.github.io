@@ -85,7 +85,10 @@ class QuadTree {
     }
 
     insert(point) {
+        this.addToTree(new Point(point))
+    }
 
+    addToTree(point) {
         if (!this.boundary.contains(point)) {
             return false;
         }
@@ -98,13 +101,13 @@ class QuadTree {
 
             if (!this.divided) this.subdivide();
 
-            if (this.northeast.insert(point)) {
+            if (this.northeast.addToTree(point)) {
                 return true;
-            } else if (this.northwest.insert(point)) {
+            } else if (this.northwest.addToTree(point)) {
                 return true;
-            } else if (this.southeast.insert(point)) {
+            } else if (this.southeast.addToTree(point)) {
                 return true;
-            } else if (this.southwest.insert(point)) {
+            } else if (this.southwest.addToTree(point)) {
                 return true;
             }
         }
@@ -114,7 +117,7 @@ class QuadTree {
     query(range) {
         let found = this.getItemsInArea(range)
 
- /*
+        /*
         if (range.x < range.w / 2) {
             //LEFT
             let wrappingBound = new Rectangle(range.x + width, range.y, range.w, range.h)
@@ -136,7 +139,7 @@ class QuadTree {
                 temp.forEach(e => found.push(e))
             }
         }
-       
+        
         if (range.x > width - range.w / 2) {
             //RIGHT
             let wrappingBound = new Rectangle(range.x - width, range.y, range.w, range.h)
@@ -184,7 +187,7 @@ class QuadTree {
         } else {
             for (let p of this.points) {
                 if (range.contains(p)) {
-                    found.push(p);
+                    found.push(p.item);
                 }
             }
             if (this.divided) {
@@ -203,7 +206,7 @@ class QuadTree {
         }
 
         for (let p of this.points) {
-            found.push(p);
+            found.push(p.item);
         }
         if (this.divided) {
             this.northwest.getEachItem(found);
@@ -214,15 +217,15 @@ class QuadTree {
         return found;
     }
 
-    runEachItem() {
+    runEachItem(...items) {
         for (let p of this.points) {
-            p.item.run();
+            p.item.run(...items);
         }
         if (this.divided) {
-            this.northwest.runEachItem();
-            this.northeast.runEachItem();
-            this.southwest.runEachItem();
-            this.southeast.runEachItem();
+            this.northwest.runEachItem(...items);
+            this.northeast.runEachItem(...items);
+            this.southwest.runEachItem(...items);
+            this.southeast.runEachItem(...items);
         }
     }
 

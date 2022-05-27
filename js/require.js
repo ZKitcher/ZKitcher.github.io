@@ -9,6 +9,7 @@ const urlTree = [
             'path',
             'quadtree',
             'wall',
+            'colony',
         ]
     },
     {

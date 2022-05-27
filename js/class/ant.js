@@ -5,34 +5,39 @@ class Ant {
         this.position = createVector(x, y);
         this.maxspeed = random(1.5, 2);
         this.maxforce = 0.3;
+
         this.perceptionRadius = 150;
+        this.viewCone = radians(75);
+
         this.r = 7;
+
         this.maxPheromone = 100;
+        this.pheromoneStrength = 0;
         this.pheromoneCount = this.maxPheromone;
+
         this.status = {
             producingPheromones: true,
             hasFood: false
         }
-        this.viewCone = radians(75); 
 
     }
 
-    run() {
+    run(antsTree, paths, antHills, antColour) {
         this.borders();
-        this.activity(foods, paths);
+        this.activity(antsTree, paths, antHills);
         this.update();
-        this.render();
+        this.render(antColour);
     }
 
     applyForce(force) {
         this.acceleration.add(force);
     }
 
-    activity(foods, paths) {
+    activity(antsTree, paths, antHills) {
         if (this.status.producingPheromones && frameCount % 45 == 0) {
             this.status.hasFood ?
-                paths.toFood.insert(new Point(new Path(this.position, 'TOFOOD'))) :
-                paths.toHome.insert(new Point(new Path(this.position, 'TOHOME')));
+                paths.toFood.insert(new Path(this.position, 'TOFOOD', this.pheromoneStrength)) :
+                paths.toHome.insert(new Path(this.position, 'TOHOME'));
             this.pheromoneCount--;
         }
 
@@ -49,8 +54,8 @@ class Ant {
             this.applyForce(followPathHome);
             this.applyForce(foundHome);
         } else {
-            let followPathFood = this.followPath(paths.toFood).mult(0.4);
-            let foundFood = this.followClosest(foods).mult(1);
+            let followPathFood = this.followPath(paths.toFood).mult(0.5);
+            let foundFood = this.followClosest(foods).mult(0.5);
             this.applyForce(foundFood);
             this.applyForce(followPathFood);
         }
@@ -60,7 +65,7 @@ class Ant {
 
         let hillCollision = this.collision(antHills, 10).mult(5)
         this.applyForce(hillCollision);
-        
+
         let antCollision = this.collision(antsTree).mult(0.7)
         this.applyForce(antCollision);
     }
@@ -68,8 +73,12 @@ class Ant {
     disablePheromones() {
         this.status.producingPheromones = false;
         this.pheromoneCount = this.maxPheromone;
+        this.pheromoneStrength = 1;
+
     }
-    enablePheromones() {
+
+    enablePheromones(strength) {
+        this.pheromoneStrength = this.pheromoneStrength + strength;
         this.status.producingPheromones = true;
         this.pheromoneCount = this.maxPheromone;
     }
@@ -103,10 +112,10 @@ class Ant {
         let points = items.query(range);
 
         for (let p of points) {
-            let d = p5.Vector.dist(this.position, p.item.position);
+            let d = p5.Vector.dist(this.position, p.position);
             if (d < closest.distance) {
                 closest.distance = d;
-                closest.position = p.item.position;
+                closest.position = p.position;
             }
         }
 
@@ -128,23 +137,27 @@ class Ant {
         let range = new Rectangle(this.position.x, this.position.y, dist, dist);
         let points = path.query(range);
 
+        let avgStrength = [...new Set(points)];
+        avgStrength = avgStrength.reduce((partial, a) => partial + a.strength, 0) / avgStrength.length;
+
         for (let p of points) {
-            let d = p5.Vector.dist(this.position, p.item.position);
+            if (p.strength < avgStrength) continue;
+            let d = p5.Vector.dist(this.position, p.position);
 
             if (d < 20) {
-                sum.add(p.item.position);
+                sum.add(p.position);
                 count++;
             }
 
             if (d < dist && d > 20) {
-                let vectorToPoint = createVector(p.item.position.x - this.position.x, p.item.position.y - this.position.y);
+                let vectorToPoint = createVector(p.position.x - this.position.x, p.position.y - this.position.y);
                 let angleBetween = this.velocity.angleBetween(vectorToPoint);
 
                 if (angleBetween > -this.viewCone && angleBetween < this.viewCone) {
-                    sum.add(p.item.position)
+                    sum.add(p.position)
                     count++;
                     //fill('red');
-                    //ellipse(p.item.position.x, p.item.position.y, 5, 5);
+                    //ellipse(p.position.x, p.position.y, 5, 5);
                 }
             }
         }
@@ -168,7 +181,7 @@ class Ant {
         let points = items.query(range);
 
         for (let p of points) {
-            let diff = p5.Vector.sub(this.position, p.item.position);
+            let diff = p5.Vector.sub(this.position, p.position);
             diff.normalize().div(desiredSeparation);
             steer.add(diff);
             count++;
@@ -251,7 +264,7 @@ class Ant {
         }
     }
 
-    render() {
+    render(antColour) {
         angleMode(RADIANS);
 
         fill(127, 127);
@@ -269,7 +282,8 @@ class Ant {
             //pop();
         }
 
-
+        console.log(antColour)
+        fill(antColour)
         ellipse(0, 0, 2, 4)
         /*
         //Thorax

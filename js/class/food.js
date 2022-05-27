@@ -2,10 +2,11 @@ class Food {
     constructor(x, y) {
         this.position = createVector(x, y);
         this.isEaten = false;
-        this.stockpile = 250;
+        this.size = random(10, 25)
+        this.stockpile = this.size * 10;
     }
 
-    run() {
+    run(ants) {
         this.update(ants)
         this.render();
     }
@@ -15,16 +16,16 @@ class Food {
             let ant = ants[i];
 
             rectMode(CENTER);
-            let range = new Rectangle(ant.position.x, ant.position.y, 16, 16);
+            let range = new Rectangle(ant.position.x, ant.position.y, ant.perceptionRadius, ant.perceptionRadius);
             let points = foods.query(range);
 
             for (let p of points) {
-                let d = p5.Vector.dist(this.position, p.item.position);
-                if (d < 16) {
+                let d = p5.Vector.dist(this.position, ant.position);
+                if (d < this.size) {
                     if (!ant.status.hasFood) {
                         ant.status.hasFood = true;
-                        ant.enablePheromones();
-                        ant.velocity.mult(-1)
+                        ant.velocity.mult(-1);
+                        ant.enablePheromones(p.size / 25 * points.length);
                         this.stockpile--;
                         break;
                     }
@@ -38,6 +39,6 @@ class Food {
     render() {
         fill(0, 255, 0);
         stroke(200);
-        ellipse(this.position.x, this.position.y, 16, 16);
+        ellipse(this.position.x, this.position.y, this.size, this.size);
     }
 }
