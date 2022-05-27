@@ -282,7 +282,6 @@ class Ant {
             //pop();
         }
 
-        console.log(antColour)
         fill(antColour)
         ellipse(0, 0, 2, 4)
         /*
