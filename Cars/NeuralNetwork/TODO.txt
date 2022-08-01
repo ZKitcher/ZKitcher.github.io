@@ -1,0 +1,11 @@
+✔️ Add random mutation rates to NEAT Genomes constructors
+✔️ Toggle drawn best brain.
+✔️ average out and smoothen gradients for randomised track generation. //reduce chances of spiked tracks on end of screen turns
+✔️ add NEATPopulation function to mutate x attribute by x % throughout the populace. ie: pop.mutateThroughout('output', 'tanh', 30) // change 30% of the populations output functions to tanh
+✔️ Drifting cars
+- Drift multiplyers for more points for longer drifts.
+✔️ Add track Types. (asphalt, dirt, snow).
+✔️ Improve NEAT loop efficiencies.
+✔️ Add Fast Forward function to speed up generations.
+- 3rd output for car network for handbrake. (drop traction by x value)
+- Adjusts turning angle to rotate off velocity.

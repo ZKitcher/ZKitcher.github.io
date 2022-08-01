@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src="js/require.js?lmao=1.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+</body>
+
+<script>
+    // class Drifter {
+    //     constructor() {
+    //         this.turnRateStatic = 0.08;
+    //         this.turnRateDynamic = 0.03;
+    //         this.turnRate = this.turnRateStatic;
+    //         this.gripStatic = 2;
+    //         this.gripDynamic = 0.5;
+    //         this.DRIFT_CONSTANT = 3;
+
+    //         this.position = createVector(width / 2, height / 2);
+    //         this.velocity = createVector(0, 0);
+    //         this.acceleration = createVector(0, 0);
+    //         this.angle = -1.56;
+    //         this.mass = 10;
+    //         this.currentAcceleration = 0.15;
+    //         this.isDrifting = false;
+
+    //         this.trail = [];
+
+    //         this.speed = 0;
+    //     }
+
+    //     run() {
+    //         this.update();
+    //         this.render();
+    //     }
+
+    //     getPos() {
+    //         return this.position.copy();
+    //     }
+    //     isDrift() {
+    //         return this.isDrifting;
+    //     }
+
+    //     update() {
+    //         if (keyIsPressed) {
+    //             if (keyIsDown(UP_ARROW)) {
+    //                 this.adjustVelocity(this.currentAcceleration)
+    //             }
+    //             if (keyIsDown(DOWN_ARROW)) {
+    //                 this.adjustVelocity(-this.currentAcceleration)
+    //             }
+    //             if (keyIsDown(LEFT_ARROW)) {
+    //                 this.angle -= this.turnRate;
+    //             }
+    //             if (keyIsDown(RIGHT_ARROW)) {
+    //                 this.angle += this.turnRate;
+    //             }
+    //         }
+
+    //         this.trail.push({
+    //             position: this.getPos(),
+    //             drifting: this.isDrift(),
+    //         });
+
+    //         if (this.trail.length > 400) {
+    //             this.trail.shift()
+    //         }
+
+    //         let vB = this.vectWorldToBody(this.velocity, this.angle);
+
+    //         let bodyFixedDrag;
+    //         let grip;
+    //         if (abs(vB.x) < this.DRIFT_CONSTANT) {
+    //             grip = this.gripStatic
+    //             this.turnRate = this.turnRateStatic;
+    //             this.isDrifting = false;
+    //         } else {
+    //             grip = this.gripDynamic;
+    //             this.turnRate = this.turnRateDynamic;
+    //             this.isDrifting = true;
+    //         }
+    //         bodyFixedDrag = createVector(vB.x * -grip, vB.y * 0.05);
+
+    //         let worldFixedDrag = this.vectBodyToWorld(bodyFixedDrag, this.angle)
+    //         this.acceleration.add(
+    //             worldFixedDrag.div(this.mass)
+    //         );
+
+    //         this.angle = this.angle % TWO_PI;
+    //         this.velocity.add(this.acceleration);
+    //         this.position.add(this.velocity);
+    //         this.speed = p5.Vector.dist(this.acceleration, this.velocity);
+    //         this.acceleration = createVector(0, 0);
+    //     }
+
+    //     adjustVelocity(accel = this.currentAcceleration) {
+    //         this.acceleration
+    //             .add(
+    //                 this.vectBodyToWorld(
+    //                     createVector(0, accel),
+    //                     this.angle
+    //                 )
+    //             );
+    //     }
+
+    //     vectBodyToWorld(vect, ang) {
+    //         let v = vect.copy();
+    //         let vn = createVector(
+    //             v.x * cos(ang) - v.y * sin(ang),
+    //             v.x * sin(ang) + v.y * cos(ang)
+    //         );
+    //         return vn;
+    //     }
+
+    //     vectWorldToBody(vect, ang) {
+    //         let v = vect.copy();
+    //         let vn = createVector(
+    //             v.x * cos(ang) + v.y * sin(ang),
+    //             v.x * sin(ang) - v.y * cos(ang)
+    //         );
+    //         return vn;
+    //     }
+
+    //     render() {
+    //         push();
+    //         fill(100, 100, 100, 127);
+    //         rectMode(CENTER);
+    //         stroke(200);
+    //         translate(this.position.x, this.position.y);
+    //         rotate(this.angle);
+    //         rect(0, 0, 10, 20, 3)
+    //         strokeWeight(3)
+    //         point(4, 10)
+    //         point(-4, 10)
+    //         pop()
+
+    //         push();
+    //         for (let p of this.trail) {
+    //             if (p.drifting) {
+    //                 stroke(255, 100, 100);
+    //             } else {
+    //                 stroke(255);
+    //             }
+    //             point(p.position.x, p.position.y);
+    //         }
+    //         pop()
+
+    //     }
+    // }
+
+    // let myCar;
+    // function setup() {
+    //     createCanvas(window.innerWidth, window.innerHeight);
+    //     myCar = new Drifter()
+    // }
+
+    // function draw() {
+    //     push()
+    //     background(51);
+    //     pop()
+
+    //     myCar.run()
+    // }
+</script>
+
+</html>
