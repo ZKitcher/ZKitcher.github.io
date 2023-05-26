@@ -16,7 +16,7 @@ class AntHill {
     run(food) {
 
         if (frameCount % 15 === 0) {
-            if (this.population.length < 400) {
+            if (this.population.length < 300) {
                 this.addAnt();
             }
         }
