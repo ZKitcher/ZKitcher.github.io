@@ -8,18 +8,18 @@
             "type": "image/x-icon"
         },
         {
-            "src": "/favicon.ico",
+            "src": "assets/AppIcon144.png",
             "type": "image/png",
             "sizes": "144x144",
             "purpose": "maskable any"
         },
         {
-            "src": "/favicon.ico",
+            "src": "assets/AppIcon192.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "/favicon.ico",
+            "src": "assets/AppIcon512.png",
             "type": "image/png",
             "sizes": "512x512"
         }
